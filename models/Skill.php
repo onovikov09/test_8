@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -49,11 +48,22 @@ class Skill extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Список навыков id => title
+     *
+     * @return array
+     */
     public static function getList()
     {
         return ArrayHelper::map(self::find()->orderBy('sort ASC, title ASC')->all(), 'id', 'title');
     }
 
+    /**
+     * Добавление нового навыка
+     *
+     * @param $title
+     * @return mixed
+     */
     public static function create($title)
     {
         $skill = new static();

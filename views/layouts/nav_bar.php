@@ -1,20 +1,30 @@
 <nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="col-md-10 col-md-offset-1 text-center">
-            <?php if (Yii::$app->user->isGuest) { ?>
-                <div class="navbar-header">
-                    <button type="button" class="btn btn-default navbar-btn js_signin_open">Войти</button>
-                    <button type="button" class="btn btn-default navbar-btn js_signup_open">Зарегистрироваться</button>
-                </div>
-            <?php } else { ?>
-                <div class="navbar-header">
-                    <a href="<?= \yii\helpers\Url::to(["profile/edit"]) ?>" class="header_full_name">
-                        <?= Yii::$app->user->getIdentity()->getFull_name() ?>
-                    </a>
-                    <a href="<?= \yii\helpers\Url::to(["resume/create"]) ?>" class="btn btn-default navbar-btn">Новое резюме</a>
-                    <a href="<?= \yii\helpers\Url::to(["site/logout"]) ?>" class="btn btn-default navbar-btn">Выйти</a>
-                </div>
-            <?php } ?>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="<?= \yii\helpers\Url::to(["/"]) ?>" class="navbar-brand"><?= Yii::$app->id ?></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+            <ul class="nav navbar-nav">
+                <li class="<?= $this->context->checkActive("site/index") ?>"><a href="<?= \yii\helpers\Url::to(["/"]) ?>">Список резюме</a></li>
+                <?php if (Yii::$app->user->isGuest) { ?>
+                    <li><a href="#" class="js_signin_open">Войти</a></li>
+                    <li><a href="#" class="js_signup_open">Зарегистрироваться</a></li>
+                <?php } else { ?>
+                    <li class="<?= $this->context->checkActive("profile/edit") ?>">
+                        <a href="<?= \yii\helpers\Url::to(["profile/edit"]) ?>">
+                            Профиль (<?= Yii::$app->user->getIdentity()->getFull_name() ?>)
+                        </a>
+                    </li>
+                    <li class="<?= $this->context->checkActive("resume/create") ?>"><a href="<?= \yii\helpers\Url::to(["resume/create"]) ?>">Добавить новое резюме</a></li>
+                    <li><a href="<?= \yii\helpers\Url::to(["site/logout"]) ?>">Выйти</a></li>
+                <?php } ?>
+            </ul>
         </div>
     </div>
 </nav>

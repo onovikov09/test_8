@@ -167,7 +167,7 @@ var ClassForm = function()
             jThis = $(this);
 
             if ("radio" == jThis.prop("type")) {
-                if (jThis.is(":checked")) {
+                if (jThis.prop("checked")) {
                     oData[jThis.prop("name")] = jThis.val();
                 }
                 return;
@@ -186,7 +186,7 @@ var ClassForm = function()
             {
                 jSelect = $(this);
 
-                jSelect2Wrap = jThis.closest(".wrap_field").find(".select2");
+                jSelect2Wrap = jSelect.closest(".wrap_field").find(".select2");
                 if (jSelect2Wrap.length) {
                     jSelect2Wrap.find("[data-id]").each(function ()
                     {
@@ -232,14 +232,14 @@ var DropzonePersonal = {
         var jElement = $("#lk_photo-drop-image");
         if(jElement.length && !jElement.hasClass("dz-started")){
             jElement.dropzone({
-                url: '/site/image',
+                url: '/profile/image',
                 paramName: 'User[avatar_image]',
                 maxFilesize: 0.5,
                 maxFiles: 1,
                 acceptedFiles: "image/png,.jpg,.gif",
                 uploadMultiple: false,
-                thumbnailWidth: 150,
-                thumbnailHeight: 175,
+                thumbnailWidth: 300,
+                thumbnailHeight: 150,
                 dictFileTooBig: "Размер файла слишком большой",
                 dictMaxFilesExceeded: 'Возможно загрузить не более 1 файла',
                 dictInvalidFileType: 'Неподдерживаемый тип файла',
@@ -247,7 +247,7 @@ var DropzonePersonal = {
                     'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
                 },
                 previewsContainer: ".lk_photo-drop-preview",
-                previewTemplate: "<div class=\"change-form-avatar\"><img data-dz-thumbnail /><span class=\"image_load_error\" data-dz-errormessage=\"\"></span></div>",
+                previewTemplate: "<div class='change-form-avatar'><img data-dz-thumbnail /><span class='image_load_error'><span data-dz-errormessage=''></span></span></div>",
                 clickable: ".lk_photo-drop-preview",
                 init: function ()
                 {
@@ -264,7 +264,10 @@ var DropzonePersonal = {
                         }
 
                         if(responseText.success) {
-                            $("#lk_photo-drop-image").find('[name="User[avatar]"]').val(responseText.new_src);
+                            setTimeout(function(){
+                                $("#lk_photo-drop-image").find('[name="User[avatar]"]').val(responseText.new_src).end()
+                                    .find('[data-dz-thumbnail]').prop("src", responseText.new_src);
+                            }, 0);
                         }
                     });
 
@@ -328,8 +331,11 @@ var oAllPage = {
         function afterSelect()
         {
             $('.skill_grade').raty({
+                cancel  : true,
                 starOff: '/images/star-off.png',
                 starOn: '/images/star-on.png',
+                cancelOff: '/images/cancel-off.png',
+                cancelOn: '/images/cancel-on.png',
                 click: function(grade, event)
                 {
                     var jThis = $(this).closest(".skill_title");
@@ -370,7 +376,7 @@ var oAllPage = {
     hInit: function ()
     {
         oAllPage.hInitToastr();
-        oAllPage.hFixSelect2();
+        setTimeout(function() { oAllPage.hFixSelect2(); }, 0);
 
         $(document).on("click", ".radio_items", oAllPage.hFixClickRadio);
     }
@@ -426,4 +432,3 @@ $(function() {
     DropzonePersonal.init();
 
 });
-

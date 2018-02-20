@@ -2,7 +2,7 @@
 
 return [
     'rev' => 3,
-    'adminEmail' => 'admin@example.com',
-    'noreply' => 'onovikov09@gmail.com',
+    'adminEmail' => 'info@alltest.rnd1.ru',
+    'noreply' => 'info@alltest.rnd1.ru',
     'from' => 'Oleg Novikov',
 ];

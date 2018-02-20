@@ -3,14 +3,9 @@
 namespace app\models;
 
 use app\components\PasswordBehavior;
-use Imagine\Image\Box;
-use Imagine\Image\Point;
-use mongosoft\file\UploadImageBehavior;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
 use yii\helpers\Url;
-use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -116,7 +111,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
                 ['gender', 'checkGender'],
                 ['password', 'string', 'min' => 8],
                 ['password', 'compare', 'compareAttribute' => 'password_confirm', 'message' => 'Пароли не совпадают'],
-                //[['recaptcha'], 'checkRecaptcha', 'skipOnEmpty'=> false],
             ],
             self::SCENARIO_SIGNIN => [
                 [['email', 'password'], 'trim'],
@@ -231,6 +225,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
+     * Проверка правильности выбора пола
+     *
      * @param $attribute
      * @param $params
      * @return bool
@@ -295,7 +291,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function login()
     {
-        //Yii::$app->session->set('recaptcha_valid', null);
         return Yii::$app->user->login($this, 3600*24*180);
     }
 
@@ -402,7 +397,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getAvatar_or_stub()
     {
-        return $this->avatar ? $this->avatar : '/images/no_sex.png';
+        return $this->avatar ? $this->avatar : '/images/avatars/' . $this->gender . '.jpg';
     }
 
     /**
@@ -436,14 +431,25 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function getFullPath()
     {
-        return Yii::getAlias("@app/web/uploads/avatar/");
+        return Yii::getAlias("@app/public_html/uploads/avatar/");
     }
 
+    /**
+     * Путь к аватарке через веб
+     *
+     * @return bool|string
+     */
     public static function getWebPath()
     {
         return Yii::getAlias("@web/uploads/avatar/");
     }
 
+    /**
+     * Генерация случайного имени
+     *
+     * @param $file
+     * @return string
+     */
     public static function generateImageName($file)
     {
         return uniqid() . "." . $file->extension;
@@ -478,35 +484,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             return false;
         }
 
-        //$type = exif_imagetype($this->avatar_image->tempName);
-
-        //$this->crop($this->avatar_image->tempName);
-
         $newImageName = static::generateImageName($this->avatar_image);
-
-        //$image = Image::getImagine()->open($this->avatar_image->tempName);
-
-        //saving thumbnail
-        //$newSizeThumb = new Box(600, 700);
-        //$cropSizeThumb = new Box(0, 0); //frame size of crop
-        //$cropPointThumb = new Point(600, 700);
-
-        //$pathThumbImage = $this->getFullPath() . $newImageName;
-
-       /* $image->resize($newSizeThumb)
-            ->crop($cropPointThumb, $cropSizeThumb)
-            ->save($this->getFullPath() . $newImageName, ['quality' => 100]);*/
-
-        /*$crop = new CropAvatar(
-            isset($_POST['avatar_src']) ? $_POST['avatar_src'] : null,
-            $_POST['avatar_data'],
-            CUploadedFile::getInstanceByName('avatar_file'),
-            F::getUploadPath($model->file_image),
-            F::getUploadPath($model->file_image, true)
-        );*/
-
-
-
         if ($this->avatar_image->saveAs($this->getFullPath() . $newImageName, true))
         {
             $this->avatar = static::getWebPath() . $newImageName;
@@ -517,55 +495,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return false;
     }
 
-    private function crop($src, $dst, $data) {
-        if (!empty($src) && !empty($dst) && !empty($data)) {
-            switch ($this->type) {
-                case IMAGETYPE_GIF:
-                    $src_img = imagecreatefromgif($src);
-                    break;
-
-                case IMAGETYPE_JPEG:
-                    $src_img = imagecreatefromjpeg($src);
-                    break;
-
-                case IMAGETYPE_PNG:
-                    $src_img = imagecreatefrompng($src);
-                    break;
-            }
-
-            if (empty($src_img)) {
-                $this->msg = "Failed to read the image file";
-                return;
-            }
-
-            $dst_img = imagecreatetruecolor(110, 155);
-            $result = imagecopyresampled($dst_img, $src_img, 0, 0, $data->x, $data->y, 110, 155, $data->width, $data->height);
-
-            if ($result) {
-                switch ($this->type) {
-                    case IMAGETYPE_GIF:
-                        $result = imagegif($dst_img, $dst);
-                        break;
-
-                    case IMAGETYPE_JPEG:
-                        $result = imagejpeg($dst_img, $dst);
-                        break;
-
-                    case IMAGETYPE_PNG:
-                        $result = imagepng($dst_img, $dst);
-                        break;
-                }
-
-                if (!$result) {
-                    $this->msg = "Failed to save the cropped image file";
-                }
-            } else {
-                $this->msg = "Failed to crop the image file";
-            }
-
-            imagedestroy($src_img);
-            imagedestroy($dst_img);
-        }
+    public function getResume()
+    {
+        return $this->hasMany(Resume::className(), ["user_id" => "id"]);
     }
-
 }

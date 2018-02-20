@@ -16,7 +16,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->context->title) ?></title>
+    <title><?= Html::encode($this->context->titlePage) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -28,15 +28,13 @@ AppAsset::register($this);
             $this->registerJs('toaster(' . json_encode($flash, JSON_UNESCAPED_UNICODE) . ');');
         }
     }
-
-    $currentLang = Yii::$app->language;
-    $this->registerJs("var currentLang = '$currentLang'", \yii\web\View::POS_HEAD);
 ?>
 
 <div class="wrap">
     <?= $this->render('/layouts/nav_bar') ?>
     <div class="container">
         <?= $content ?>
+        <?= $this->render('/layouts/footer') ?>
     </div>
 </div>
 

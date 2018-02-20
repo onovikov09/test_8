@@ -32,7 +32,7 @@
                 </label>
             </div>
 
-            <input type="submit" class="js_signup_submit loginmodal-submit" value="Зарегистрироваться">
+            <input type="submit" class="js_signup_submit btn btn-primary" value="Зарегистрироваться">
 
             <div class="login-help">
                 <a href="#" class="js_signin_open">Войти</a>

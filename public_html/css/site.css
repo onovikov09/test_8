@@ -5,22 +5,17 @@ body {
     height: 100%;
 }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
-}
-
-.wrap > .container {
-    padding: 70px 15px 20px;
-}
-
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
 }
 
 .jumbotron {
@@ -150,13 +145,14 @@ textarea {
     width: 100%;
     height: 100px;
     resize: none;
+    padding: 10px;
 }
 
-.modal-container .has_error input[type=text], .modal-container .has_error input[type=password] {
+.has_error input[type=text], .has_error input[type=password] {
     border: 1px solid darkred;
 }
 
-.modal-container .error_message {
+.error_message {
     color: darkred;
 }
 
@@ -229,14 +225,6 @@ input[type=text], input[type=password] {
     margin-bottom: 10px;
 }
 
-
-@import url(https://fonts.googleapis.com/css?family=Quicksand:400,300);
-body{
-    font-family: 'Quicksand', sans-serif;
-}
-.team{
-    padding:75px 0;
-}
 h6.description{
     font-weight: bold;
     letter-spacing: 2px;
@@ -272,34 +260,33 @@ h6.description{
     top: 0;
     bottom: 0;
 }
-.img-box ul{
+.img-box .text-center{
     position: absolute;
     z-index: 2;
-    bottom: 50px;
+    top: 0;
     text-align: center;
     width: 100%;
-    padding-left: 0px;
-    height: 0px;
-    margin:0px;
+    height: 100%;
     opacity: 0;
+    overflow: hidden;
 }
-.profile .img-box:after, .img-box ul, .img-box ul li{
+
+.img-box .text-center:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.img-box .text-center span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.profile .img-box:after, .img-box .text-center{
     -webkit-transition: all 0.5s ease-in-out 0s;
     -moz-transition: all 0.5s ease-in-out 0s;
     transition: all 0.5s ease-in-out 0s;
-}
-.img-box ul i{
-    font-size: 20px;
-    letter-spacing: 10px;
-}
-.img-box ul li{
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    border: 1px solid #88C425;
-    margin: 2px;
-    padding: 5px;
-    display: inline-block;
 }
 .img-box a{
     color:#fff;
@@ -307,17 +294,13 @@ h6.description{
 .img-box:hover:after{
     opacity: 1;
 }
-.img-box:hover ul{
+.img-box:hover .text-center{
     opacity: 1;
 }
-.img-box ul a{
+.img-box .text-center a{
     -webkit-transition: all 0.3s ease-in-out 0s;
     -moz-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
-}
-.img-box a:hover li{
-    border-color: #fff;
-    color: #88C425;
 }
 a{
     color:#88C425;
@@ -326,18 +309,9 @@ a:hover{
     text-decoration:none;
     color:#519548;
 }
-i.red{
-    color:#BC0213;
-}
-
-
 
 .change-form-avatar {
-    width: 150px;
-    height: 175px;
-    /*border-radius: 50%;*/
     overflow: hidden;
-    /*background-color: #D6E3E5;*/
     position: relative;
     cursor: pointer;
 }
@@ -351,16 +325,21 @@ i.red{
     bottom: 0;
     border: 1px solid #E65144;
     overflow: hidden;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    background-color: white;
-    text-align: center;
-    font-size: 14px;
     display: none;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.image_load_error:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.image_load_error span {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .image_load_error.active {
@@ -369,4 +348,33 @@ i.red{
 
 .skill_grade {
     margin: 0 0 0 5px;
+}
+
+.avatar_user {
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+}
+
+.change-form-avatar img{
+    width: 25%;
+}
+
+.delete_resume {
+    float: right;
+    margin: 0 0 0 10px;
+}
+
+.link_resume {
+    line-height: 2.4em;
+}
+
+.profile .list-group-item {
+    overflow: hidden;
+}
+
+.avatar_preview {
+    height: 300px;
 }

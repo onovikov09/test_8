@@ -33,7 +33,7 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => YII_DEBUG ? true : false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -49,6 +49,9 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/<alias>/<id:\d+>' => '<alias>/view',
+                '/<alias>/edit/<id:\d+>' => '<alias>/edit',
+                'sitemap.xml'=>'site/sitemap',
             ],
         ],
         'authClientCollection' => [

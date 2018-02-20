@@ -36,6 +36,7 @@ class m180216_120337_init_tables extends Migration
             'sort' => $this->integer(11)->defaultValue(0),
             'is_active' => $this->integer(4)->defaultValue(1),
             'created_at' => $this->integer(11),
+            'update_at' => $this->integer(11),
         ]);
 
         $this->createTable('{{%skill}}', [

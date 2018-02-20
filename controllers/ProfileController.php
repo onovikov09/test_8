@@ -5,9 +5,15 @@ namespace app\controllers;
 use app\components\FrontController;
 use app\models\User;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class ProfileController extends FrontController
 {
+    /**
+     * Редактирование профиля
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionEdit()
     {
         $this->setTitle('Редактирование профиля');
@@ -36,6 +42,31 @@ class ProfileController extends FrontController
         }
 
         return $this->render("edit");
+    }
+
+    /**
+     * Загрузка аватара
+     *
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionImage()
+    {
+        if (!Yii::$app->request->isAjax || Yii::$app->user->isGuest) {
+            throw new NotFoundHttpException();
+        }
+
+        $model = Yii::$app->user->getIdentity();
+        $model->setScenario(User::SCENARIO_LOAD_AVATAR);
+        if ($model->saveImage()) {
+            return $this->asJson(['success' => true, 'new_src' => $model->avatar]);
+        }
+
+        return $this->asJson([
+            'success' => false,
+            'error' => $model->errors,
+            'toaster' => 'Ошибка загрузки аватара'
+        ]);
     }
 
 }

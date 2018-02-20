@@ -139,72 +139,84 @@ class m180219_122150_insert_data_skills extends Migration
             'user_id' => 1,
             'title' => 'Web Developer',
             'description' => 'Пишу и читаю со словарем',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 2,
             'title' => 'Designer',
             'description' => 'Люблю рисовать',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 3,
             'title' => 'Developer',
             'description' => 'Люблю летать',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 4,
             'title' => 'Co-founder/ Marketing',
             'description' => 'Шью и вяжу',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 5,
             'title' => 'Co-founder/ Projects',
             'description' => 'Не люблю летать',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 6,
             'title' => 'Fullstack Developer',
             'description' => 'Люблю кодить',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 7,
             'title' => 'Co-founder/ Operations',
             'description' => 'Работаю за еду',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 8,
             'title' => 'Designer',
             'description' => 'Полет мысли',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 9,
             'title' => 'Co-founder/ Projects',
             'description' => 'Не люблю летать',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 10,
             'title' => 'Co-founder/ Projects',
             'description' => 'Не люблю летать',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 11,
             'title' => 'Co-founder/ Projects',
             'description' => 'Не люблю летать',
+            'update_at' => time(),
         ]);
 
         $this->insert('resume', [
             'user_id' => 12,
             'title' => 'Co-founder/ Projects',
             'description' => 'Не люблю летать',
+            'update_at' => time(),
         ]);
     }
 

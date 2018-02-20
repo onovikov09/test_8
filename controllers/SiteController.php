@@ -4,19 +4,15 @@ namespace app\controllers;
 
 use app\components\FrontController;
 use app\components\Helper;
-use app\components\UploadFileBehavior;
 use app\models\Resume;
 use app\models\User;
 use Yii;
 use yii\authclient\BaseOAuth;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-
 
 class SiteController extends FrontController
 {
@@ -242,27 +238,23 @@ class SiteController extends FrontController
     }
 
     /**
-     * Загрузка аватара
+     * Карта сайта
      *
-     * @return Response
-     * @throws NotFoundHttpException
      */
-    public function actionImage()
+    public function actionSitemap()
     {
-        if (!Yii::$app->request->isAjax || Yii::$app->user->isGuest) {
-            throw new NotFoundHttpException();
+        $this->layout = false;
+        if (!$xmlSitemap = Yii::$app->cache->get('sitemap')) {
+            $xmlSitemap = $this->renderPartial('sitemap', [
+                'items' => Resume::find()->where(['is_active' => Resume::STATUS_ACTIVE])->with(['user'])->all()
+            ]);
+
+            //@TODO тут нужно поставить больше, стоит 1 для примера
+            Yii::$app->cache->set('sitemap', $xmlSitemap, 1);
         }
 
-        $model = Yii::$app->user->getIdentity();
-        $model->setScenario(User::SCENARIO_LOAD_AVATAR);
-        if ($model->saveImage()) {
-            return $this->asJson(['success' => true, 'new_src' => $model->avatar]);
-        }
-
-        return $this->asJson([
-            'success' => false,
-            'error' => $model->errors,
-            'toaster' => 'Ошибка загрузки аватара'
-        ]);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        header("Content-type: text/xml");
+        echo $xmlSitemap; exit;
     }
 }

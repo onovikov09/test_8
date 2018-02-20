@@ -48,6 +48,24 @@ class Resume2skill extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Получение связанного навыка
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSkill()
+    {
+        return $this->hasOne(Skill::className(), ["id" => "skill_id"]);
+    }
+
+    /**
+     * Добавление привязки навыка
+     *
+     * @param $resume_id
+     * @param $skill_id
+     * @param $grade
+     * @return static
+     */
     public static function create($resume_id, $skill_id, $grade)
     {
         $resume2skill = new static();
