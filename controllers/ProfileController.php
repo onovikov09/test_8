@@ -5,10 +5,30 @@ namespace app\controllers;
 use app\components\FrontController;
 use app\models\User;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 
 class ProfileController extends FrontController
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['edit', 'image'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
+        ];
+    }
+
     /**
      * Редактирование профиля
      *

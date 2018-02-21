@@ -11,7 +11,7 @@
     <?php if ($resume->user->biography) { ?>
         <li class="list-group-item">Краткая биография: <?= $resume->user->biography ?></li>
     <?php } ?>
-    <li class="list-group-item">Обо мне: <?= $resume->description ?></li>
+    <li class="list-group-item">Описание: <?= $resume->description ?></li>
     <?php if ($resume->resume2skillAsSort) { ?>
         <li class="list-group-item">Навыки:
             <ul class="list-group">

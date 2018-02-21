@@ -24,10 +24,15 @@ class SiteController extends FrontController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'signin', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'profile'],
+                        'allow' => true,
+                        'actions' => ['signin', 'signup'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

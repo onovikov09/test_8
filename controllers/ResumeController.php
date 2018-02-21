@@ -5,11 +5,36 @@ namespace app\controllers;
 use app\components\FrontController;
 use app\models\Resume;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 class ResumeController extends FrontController
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'edit', 'delete'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
+        ];
+    }
+
     /**
      * Добавление нового резюме
      *
