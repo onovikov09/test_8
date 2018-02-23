@@ -27,7 +27,7 @@ class ResumeController extends FrontController
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['create', 'edit', 'delete'],
+                        'actions' => ['create', 'edit', 'delete', 'view'],
                         'roles' => ['@'],
                     ],
                 ],
